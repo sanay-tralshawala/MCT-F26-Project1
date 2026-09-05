@@ -12,6 +12,7 @@ __pycache__/
 # MATLAB/Webots generated output
 simulation_proof.log
 matlab_launcher_log.txt
+controller_results.png
 *.asv
 slprj/
 

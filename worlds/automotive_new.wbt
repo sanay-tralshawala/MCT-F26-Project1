@@ -1,4 +1,4 @@
-#VRML_SIM R2021a utf8
+#VRML_SIM R2021b utf8
 WorldInfo {
   contactProperties [
     ContactProperties {
@@ -607,11 +607,7 @@ DEF Tractor Robot {
                   children [
                     Shape {
                       appearance PBRAppearance {
-                        baseColorMap ImageTexture {
-                          url [
-                            "textures/steering_wheel.png"
-                          ]
-                        }
+                        baseColor 0.05 0.05 0.05
                         roughness 0.3
                         metalness 0
                       }
@@ -740,7 +736,7 @@ DEF Tractor Robot {
   recognitionColors [
     1 1 1
   ]
-  controller "main"
+  controller "main_matlab"
   customData "1.76 1.4 1.4 0.38 0.6 700 5 C 250 50000 1000 4500 150 0.1 0 0.25 3000 1000 6 17 -12 10 6.5 4.5 3.5 2.75 none"
   battery [
     0
@@ -1036,7 +1032,7 @@ SimpleBuilding {
     -7.6 7.12
     -5.39 -1.39
   ]
-  wallType "old brick wall"
+  wallType "old brick building"
   roofShape "flat roof"
 }
 SimpleBuilding {
