@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 
 # Local instructor solutions: never commit these files
+controllers/main_matlab/your_controller_solution.m
 *_solution.m
 *_solution.py
 *_sol.m

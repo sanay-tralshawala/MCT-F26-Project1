@@ -1,72 +1,126 @@
-# MCT-F26-Project1
+# MCT-F26 Project 1
 
-MATLAB backend for the Webots tractor-racing controller project. The project
-contains one Webots world and one MATLAB controller; no Python runtime is
-required.
+MATLAB backend for the Webots tractor-racing controller project. The repository
+contains a Webots R2025a world, a MATLAB controller template, the reference
+trajectory, and the course grader. Python is not required.
 
-## Requirements
+## Install the software
 
-- Webots (the project was developed with R2021b)
-- MATLAB with `loadlibrary` support
-- On Windows, Webots and MATLAB must have the same 64-bit architecture
+### 1. Install Webots R2025a
+
+Download the R2025a installer for your operating system from the
+[official Webots releases](https://github.com/cyberbotics/webots/releases/tag/R2025a),
+then run the installer. On Windows, the default location is
+`C:\Program Files\Webots`.
+
+This project targets R2025a specifically. Opening and saving the world with an
+older Webots release can rewrite it into an incompatible format.
+
+### 2. Install MATLAB
+
+Download and install a 64-bit MATLAB release through
+[MathWorks Downloads](https://www.mathworks.com/downloads/). A valid MathWorks
+account and MATLAB license are required. The project has been verified with
+MATLAB R2026a.
+
+On Windows, also install the
+[MATLAB Support for MinGW-w64 C/C++ Compiler](https://www.mathworks.com/matlabcentral/fileexchange/52848-matlab-support-for-mingw-w64-c-c-compiler)
+add-on. Webots uses MATLAB's `loadlibrary` support to load its controller and
+vehicle-driver libraries.
+
+Webots and MATLAB must use the same architecture; use 64-bit MATLAB with the
+64-bit Webots installation.
+
+### 3. Configure MATLAB in Webots
+
+Webots normally detects the newest MATLAB installation automatically. If it
+does not:
+
+1. Open Webots.
+2. Open **Tools > Preferences > General**.
+3. Set the MATLAB command to the full MATLAB executable path.
+
+On Windows, select the executable inside `bin\win64`, for example:
+
+```text
+C:\Program Files\MATLAB\R2026a\bin\win64\MATLAB.exe
+```
+
+Do not select `bin\MATLAB.exe`; Webots' R2025a documentation notes that this
+launcher can interfere with controller output and process termination.
+
+The official references are the Webots
+[installation guide](https://cyberbotics.com/doc/guide/installation-procedure)
+and [MATLAB controller guide](https://cyberbotics.com/doc/guide/using-matlab).
 
 ## Clone and run
 
-1. Clone this repository and keep its folder structure unchanged.
-2. Start Webots.
-3. Select **File > Open World...** and open `worlds/automotive_new.wbt`.
-4. Confirm the Tractor node has controller `main_matlab`.
-5. Press Webots' **Run** button.
+1. Clone or download this repository, preserving its folder structure.
+2. Start Webots R2025a.
+3. Select **File > Open World...**.
+4. Open `worlds/automotive_new.wbt`.
+5. Confirm that `DEF Tractor Robot` uses controller `main_matlab`.
+6. Press **Run**.
 
-Webots starts MATLAB automatically and minimized. Do not run `main_matlab.m`
-from MATLAB because Webots supplies the controller connection and environment.
-The rendered world, console display, and speedometer display remain enabled.
+Webots launches MATLAB automatically and runs
+`controllers/main_matlab/main_matlab.m`. Do not start that file directly from
+MATLAB: Webots must establish the controller connection and environment first.
 
-## Implement the controller
+The first launch can take longer because MATLAB generates interface files for
+the Webots libraries. Subsequent simulation output appears in the Webots
+console.
 
-Open `controllers/main_matlab/your_controller.m` in Webots' text-editor side
-panel. The supplied Webots project metadata opens this file automatically.
-Fill in the labeled lateral and longitudinal controller sections, save the
-file, reset the simulation, and press **Run** again.
+## Implement the assignment controller
 
-The blank template assigns safe zero values to `delta` and `F`, so the backend
-can start without an undefined-variable error before a student implements the
-controller. The tractor intentionally remains stationary with those defaults.
+Edit only:
 
-## Grade and results
+```text
+controllers/main_matlab/your_controller.m
+```
 
-When the tractor reaches the destination, the backend prints the four grading
-components and total score in the Webots console. MATLAB then opens the original
-4-by-2 results window with labeled axes, a white background, black text, and red
-data traces. The same figure is saved beside the controller as
-`controller_results.png`; this generated image is intentionally ignored by Git.
+The supplied file is the student template. Implement the two labeled sections:
 
-## Webots R2021b with MATLAB R2026a
+- Lateral control: calculate and assign steering command `delta`.
+- Longitudinal control: calculate and assign force command `F`.
 
-That specific old/new combination has a Webots prototype-cache incompatibility.
-Before the first run on such a machine, copy
-`controllers/main_matlab/startup.m` to the MATLAB startup folder:
+The template initially assigns zero to both outputs, so the project can run
+safely before an implementation is added. After editing it:
 
-`%USERPROFILE%\Documents\MATLAB\startup.m`
+1. Save `your_controller.m`.
+2. Reset the simulation in Webots.
+3. Press **Run** again.
 
-The hook is inactive during normal MATLAB use. It only clears Webots R2021b's
-incompatible generated prototype when MATLAB R2026 or newer is launched by
-Webots. Newer compatible Webots/MATLAB combinations do not need this step.
+Do not rename the controller folder or `main_matlab.m`; Webots identifies a
+MATLAB controller by matching its controller directory and entry-point name.
+
+## Grading and output
+
+After the tractor reaches the destination, the grader reports:
+
+- loop-completion score;
+- average-distance score;
+- maximum-distance score;
+- completion-time bonus; and
+- total score out of 100.
+
+MATLAB also creates `controllers/main_matlab/controller_results.png`. Generated
+result images and simulation logs are ignored by Git.
 
 ## Important files
 
-- `worlds/automotive_new.wbt` - rendered tractor-racing world
-- `controllers/main_matlab/main_matlab.m` - Webots run loop and UI
-- `controllers/main_matlab/your_controller.m` - student controller template
-- `controllers/main_matlab/BaseController.m` - state estimation
-- `controllers/main_matlab/evaluation.m` - project grader
-- `controllers/main_matlab/buggyTrace.csv` - reference trajectory
+- `worlds/automotive_new.wbt` — Webots R2025a world.
+- `protos/TractorFrontWheel.proto` — R2025a-compatible front-wheel geometry.
+- `protos/TractorRearWheel.proto` — R2025a-compatible rear-wheel geometry.
+- `controllers/main_matlab/main_matlab.m` — simulation loop and UI.
+- `controllers/main_matlab/your_controller.m` — student-editable template.
+- `controllers/main_matlab/BaseController.m` — sensor access and state estimate.
+- `controllers/main_matlab/evaluation.m` — grading implementation.
+- `controllers/main_matlab/buggyTrace.csv` — reference trajectory.
 
-## Differences from the supplied 2022 ZIP
+## R2025a migration notes
 
-- The world controller changed from `main` to `main_matlab`.
-- The Python backend and cached Python bytecode were removed.
-- The MATLAB speedometer asset is stored beside the MATLAB controller.
-- The obsolete `old brick wall` value was normalized for Webots R2021b.
-- The ZIP referenced a missing `steering_wheel.png`; the steering wheel now
-  uses an equivalent dark material without an external missing texture.
+The world explicitly declares its external PROTO dependencies and uses R2025a
+`Pose`, primitive-axis, and XY ground-plane conventions. Road waypoints,
+building footprints, the forest boundary, and playset orientations were
+converted from their R2021b representations. Local wheel PROTOs preserve the
+tractor's original joint frames while using R2025a geometry conventions.

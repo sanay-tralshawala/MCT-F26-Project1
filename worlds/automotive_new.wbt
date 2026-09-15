@@ -1,4 +1,17 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/trees/protos/Forest.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/road/protos/Road.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/buildings/protos/SimpleBuilding.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/garden/protos/Slide.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/garden/protos/Swing.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "../protos/TractorFrontWheel.proto"
+EXTERNPROTO "../protos/TractorRearWheel.proto"
+
 WorldInfo {
   contactProperties [
     ContactProperties {
@@ -7,7 +20,7 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.2143466967115114 0.41748886862581025 0.8830393752163062 2.1553316527878636
+  orientation 0.3579418066879838 0.06466990716949199 -0.9315017263170429 2.6533753572512406
   position 79.9245988505375 49.43813649868936 56.391854075107766
   follow "tractor"
 }
@@ -40,7 +53,7 @@ DEF Tractor Robot {
     Compass {
       rotation -0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.09
     }
-    Transform {
+    Pose {
       translation 0.7 0 1.76
       rotation 0 0 1 -1.5708
       children [
@@ -89,7 +102,7 @@ DEF Tractor Robot {
         }
       ]
     }
-    Transform {
+    Pose {
       translation -0.7 0 1.76
       rotation 0 0 1 1.5708
       children [
@@ -139,7 +152,7 @@ DEF Tractor Robot {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0.7 0 0
       rotation 0 0 1 -1.5708
       children [
@@ -174,7 +187,7 @@ DEF Tractor Robot {
         }
       ]
     }
-    Transform {
+    Pose {
       translation -0.7 0 0
       rotation 0 0 1 1.5708
       children [
@@ -215,7 +228,7 @@ DEF Tractor Robot {
     }
     Group {
       children [
-        DEF FRONT_AXLE_CYL Transform {
+        DEF FRONT_AXLE_ASSEMBLY Pose {
           translation 0 0.07 0.05
           rotation 0 0.996789349666373 -0.08006867297320089 3.14159
           children [
@@ -223,22 +236,27 @@ DEF Tractor Robot {
               translation 0 -0.25 -1.7
               rotation 0 0 1 1.5708
               children [
-                Shape {
-                  appearance DEF FRAME_APP PBRAppearance {
-                    baseColor 0.129412 0.129412 0.129412
-                    roughness 0.5
-                    metalness 0
-                  }
-                  geometry DEF FRONT_AXLE_CYL Cylinder {
-                    bottom FALSE
-                    height 1.3
-                    radius 0.06
-                    top FALSE
-                  }
+                DEF FRONT_AXLE_CYL Pose {
+                  rotation -1 0 0 1.5707963267948966
+                  children [
+                    Shape {
+                      appearance DEF FRAME_APP PBRAppearance {
+                        baseColor 0.129412 0.129412 0.129412
+                        roughness 0.5
+                        metalness 0
+                      }
+                      geometry Cylinder {
+                        bottom FALSE
+                        height 1.3
+                        radius 0.06
+                        top FALSE
+                      }
+                    }
+                  ]
                 }
-                Transform {
+                Pose {
                   translation -0.05 0.56 0
-                  rotation 0 0 1 1.5708
+                  rotation -0.5773488553723224 -0.5773509760969792 0.5773509760969793 2.094397223120449
                   children [
                     DEF FRONT_AXLE_DIR_SHAPE Shape {
                       appearance USE FRAME_APP
@@ -249,9 +267,9 @@ DEF Tractor Robot {
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation -0.05 -0.56 0
-                  rotation 0 0 1 1.5708
+                  rotation -0.5773488553723224 -0.5773509760969792 0.5773509760969793 2.094397223120449
                   children [
                     USE FRONT_AXLE_DIR_SHAPE
                   ]
@@ -260,16 +278,16 @@ DEF Tractor Robot {
               boundingObject Group {
                 children [
                   USE FRONT_AXLE_CYL
-                  Transform {
+                  Pose {
                     translation -0.05 0.56 0
-                    rotation 0 0 1 1.5708
+                    rotation -0.5773488553723224 -0.5773509760969792 0.5773509760969793 2.094397223120449
                     children [
                       USE FRONT_AXLE_DIR_SHAPE
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation -0.05 -0.56 0
-                    rotation 0 0 1 1.5708
+                    rotation -0.5773488553723224 -0.5773509760969792 0.5773509760969793 2.094397223120449
                     children [
                       USE FRONT_AXLE_DIR_SHAPE
                     ]
@@ -281,7 +299,7 @@ DEF Tractor Robot {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.07 0.05
           rotation 0 0.996789349666373 -0.08006867297320089 3.14159
           children [
@@ -345,13 +363,13 @@ DEF Tractor Robot {
                 creaseAngle 0.2
               }
             }
-            DEF ROPS Transform {
+            DEF ROPS Pose {
               translation 0 0 -0.1
               rotation 1 0 0 0.17
               children [
-                DEF ROPS_TOP_BAR Transform {
+                DEF ROPS_TOP_BAR Pose {
                   translation 0 1.7 0
-                  rotation 0 0 1 1.5708
+                  rotation -0.5773488553723224 -0.5773509760969792 0.5773509760969793 2.094397223120449
                   children [
                     Shape {
                       appearance DEF ROPS_APPEARANCE PBRAppearance {
@@ -366,8 +384,9 @@ DEF Tractor Robot {
                     }
                   ]
                 }
-                DEF ROPS_RIGHT_BAR Transform {
+                DEF ROPS_RIGHT_BAR Pose {
                   translation 0.58 1.2 0
+                  rotation -1 0 0 1.5707963267948966
                   children [
                     Shape {
                       appearance USE ROPS_APPEARANCE
@@ -379,8 +398,9 @@ DEF Tractor Robot {
                     }
                   ]
                 }
-                DEF ROPS_LEFT_BAR Transform {
+                DEF ROPS_LEFT_BAR Pose {
                   translation -0.58 1.2 0
+                  rotation -1 0 0 1.5707963267948966
                   children [
                     Shape {
                       appearance USE ROPS_APPEARANCE
@@ -392,7 +412,7 @@ DEF Tractor Robot {
                     }
                   ]
                 }
-                DEF ROPS_LEFT_LIGHT_HOLDER Transform {
+                DEF ROPS_LEFT_LIGHT_HOLDER Pose {
                   translation -0.66 0.95 0
                   children [
                     Shape {
@@ -403,7 +423,7 @@ DEF Tractor Robot {
                     }
                   ]
                 }
-                DEF ROPS_LEFT_RIGHT_HOLDER Transform {
+                DEF ROPS_LEFT_RIGHT_HOLDER Pose {
                   translation 0.66 0.95 0
                   children [
                     Shape {
@@ -430,7 +450,7 @@ DEF Tractor Robot {
                     size 0.08 0.12 0.05
                   }
                 }
-                Transform {
+                Pose {
                   translation 0 0 -0.01
                   children [
                     Shape {
@@ -458,7 +478,7 @@ DEF Tractor Robot {
                     size 0.08 0.12 0.05
                   }
                 }
-                Transform {
+                Pose {
                   translation 0 0 -0.01
                   children [
                     Shape {
@@ -478,7 +498,7 @@ DEF Tractor Robot {
               children [
                 Group {
                   children [
-                    Transform {
+                    Pose {
                       translation -0.69 0 0
                       children [
                         Shape {
@@ -493,7 +513,7 @@ DEF Tractor Robot {
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0.69 0 0
                       children [
                         Shape {
@@ -510,7 +530,7 @@ DEF Tractor Robot {
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation -0.69 0 -0.01
                   children [
                     Shape {
@@ -521,7 +541,7 @@ DEF Tractor Robot {
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation 0.69 0 -0.01
                   children [
                     Shape {
@@ -585,25 +605,31 @@ DEF Tractor Robot {
                 1 1 1
               ]
             }
-            DEF STEERING_WHEEL Transform {
+            DEF STEERING_WHEEL Pose {
               translation 0 0.71 -0.8
               rotation 1 0 0 0.4
               children [
-                DEF AXIS Shape {
-                  appearance PBRAppearance {
-                    baseColor 0 0 0
-                    roughness 0.3
-                    metalness 0
-                  }
-                  geometry Cylinder {
-                    bottom FALSE
-                    height 0.3
-                    radius 0.02
-                    top FALSE
-                  }
+                DEF AXIS Pose {
+                  rotation -1 0 0 1.5707963267948966
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0 0 0
+                        roughness 0.3
+                        metalness 0
+                      }
+                      geometry Cylinder {
+                        bottom FALSE
+                        height 0.3
+                        radius 0.02
+                        top FALSE
+                      }
+                    }
+                  ]
                 }
-                Transform {
+                Pose {
                   translation 0 0.139 0
+                  rotation -1 0 0 1.5707963267948966
                   children [
                     Shape {
                       appearance PBRAppearance {
@@ -647,7 +673,7 @@ DEF Tractor Robot {
   model "Tractor Model"
   boundingObject Group {
     children [
-      DEF BONNET_MAIN_BO Transform {
+      DEF BONNET_MAIN_BO Pose {
         translation 0 0.52 1.35
         rotation 1 0 0 -0.15
         children [
@@ -656,7 +682,7 @@ DEF Tractor Robot {
           }
         ]
       }
-      DEF BONNET_FRONT_BO Transform {
+      DEF BONNET_FRONT_BO Pose {
         translation 0 0.57 1.79
         rotation 1 0 0 -2.35
         children [
@@ -665,7 +691,7 @@ DEF Tractor Robot {
           }
         ]
       }
-      DEF SEAT_BO Transform {
+      DEF SEAT_BO Pose {
         translation 0 0.36 0.14
         rotation 1 0 0 -0.15
         children [
@@ -674,7 +700,7 @@ DEF Tractor Robot {
           }
         ]
       }
-      DEF FRONT_BRACKET_BO Transform {
+      DEF FRONT_BRACKET_BO Pose {
         translation 0 0.41 2.11
         rotation 1 0 0 -0.15
         children [
@@ -683,7 +709,7 @@ DEF Tractor Robot {
           }
         ]
       }
-      DEF BOTTOM_FRONT_BO Transform {
+      DEF BOTTOM_FRONT_BO Pose {
         translation 0 0.01 1.7
         rotation 1 0 0 -0.15
         children [
@@ -692,7 +718,7 @@ DEF Tractor Robot {
           }
         ]
       }
-      DEF BOTTOM_REAR_BO Transform {
+      DEF BOTTOM_REAR_BO Pose {
         translation 0 -0.23 0.1
         rotation 1 0 0 -0.15
         children [
@@ -701,7 +727,7 @@ DEF Tractor Robot {
           }
         ]
       }
-      DEF CABIN_FLOOR_BO Transform {
+      DEF CABIN_FLOOR_BO Pose {
         translation 0 0.186 0.65
         rotation 1 0 0 -0.15
         children [
@@ -710,7 +736,7 @@ DEF Tractor Robot {
           }
         ]
       }
-      DEF ROPS_BO Transform {
+      DEF ROPS_BO Pose {
         translation 0 1.25 -0.26
         rotation 1 0 0 -0.32
         children [
@@ -745,7 +771,6 @@ DEF Tractor Robot {
 }
 Floor {
   translation 100 -100 0
-  rotation 1 0 0 1.570796326794897
   size 1000 1000
   appearance PBRAppearance {
     baseColorMap ImageTexture {
@@ -762,70 +787,69 @@ Floor {
   }
 }
 Road {
-  translation 0 0 0.01
-  rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.094395102
+  translation 0 0 0.03
   width 10
   lines []
   rightBorder FALSE
   leftBorder FALSE
   wayPoints [
-    0 0 -1.5, -64.48598597 0 246.077321, -92.0396192 0 345.4676504, -108.054755 0 395.1979984, -108.1183543 0 395.2819385, -111.2032218 0 399.2832238, -111.2463629 0 399.3804042, -114.1962604 0 406.6562439, -114.2377724 0 406.7646567, -118.344 0 417.822, -145 0 407.047, -149 0 403, -147.329 0 394.891, -147.3159314 0 394.7709161, -146.5779878 0 384.9238236, -147.2799079 0 374.4057373, -147.879929 0 369.2306874, -149.819546 0 360.4909802, -149.8510726 0 360.3779795, -153.8956148 0 348.7781878, -153.9527443 0 348.6589968, -159.385876 0 338.9044771, -166.1076971 0 329.1499785, -166.1824475 0 329.0458723, -171.9792573 0 322.2353554, -172.0546805 0 322.1609482, -179.3172236 0 315.9962942, -179.4078871 0 315.9287512, -200.5342834 0 300.6639308, -200.6669106 0 300.5659744, -223.7657322 0 282.4127554, -223.9058203 0 282.3077904, -252.2183543 0 261.299546, -267.4905601 0 249.8193882, -275.7780145 0 241.5410133, -275.849118 0 241.46842, -283.5745243 0 231.1602385, -283.6522848 0 231.047842, -288.5343889 0 222.3080812, -288.5858504 0 222.2009591, -292.817742 0 212.530164, -297.8300759 0 197.4096252, -310.2281214 0 152.3485523, -310.2768072 0 152.1604524, -314.1668333 0 133.7467471, -315.2752221 0 125.6905888, -315.2803057 0 125.5901299, -315.5526526 0 116.7683325, -315.5547533 0 116.6652393, -314.7171914 0 107.2040498, -314.7041058 0 107.0998824, -309.5279303 0 80.88145646, -306.378 0 62.4575, -306.3633521 0 62.32017272, -305.949 0 60, -305.9431977 0 53.2418432, -293.5781395 0 50.92683213, -293.4539877 0 50.89866345, -245.9927813 0 32.18803234, -245.8235095 0 32.13448712, -208.1111111 0 23.77950111, -187.4219767 0 8.598184637, -187.307 0 8.5126, -167.94355 0 -6.190921965, -150.098491 0 -22.68267876, -149.9994528 0 -22.78309499, -123.9651571 0 -50.99980657, -105.0328028 0 -72.10611699, -91.27769833 0 -86.58162913, -91.1664 0 -86.6589, -78.3385 0 -95.0631, -78.1414 0 -94.8335, 2 0 -2, -0.3 -0.005 0.5
+    -1.5 0 0, 246.077321 -64.48598597 0, 345.4676504 -92.0396192 0, 395.1979984 -108.054755 0, 395.2819385 -108.1183543 0, 399.2832238 -111.2032218 0, 399.3804042 -111.2463629 0, 406.6562439 -114.1962604 0, 406.7646567 -114.2377724 0, 417.822 -118.344 0, 407.047 -145 0, 403 -149 0, 394.891 -147.329 0, 394.7709161 -147.3159314 0, 384.9238236 -146.5779878 0, 374.4057373 -147.2799079 0, 369.2306874 -147.879929 0, 360.4909802 -149.819546 0, 360.3779795 -149.8510726 0, 348.7781878 -153.8956148 0, 348.6589968 -153.9527443 0, 338.9044771 -159.385876 0, 329.1499785 -166.1076971 0, 329.0458723 -166.1824475 0, 322.2353554 -171.9792573 0, 322.1609482 -172.0546805 0, 315.9962942 -179.3172236 0, 315.9287512 -179.4078871 0, 300.6639308 -200.5342834 0, 300.5659744 -200.6669106 0, 282.4127554 -223.7657322 0, 282.3077904 -223.9058203 0, 261.299546 -252.2183543 0, 249.8193882 -267.4905601 0, 241.5410133 -275.7780145 0, 241.46842 -275.849118 0, 231.1602385 -283.5745243 0, 231.047842 -283.6522848 0, 222.3080812 -288.5343889 0, 222.2009591 -288.5858504 0, 212.530164 -292.817742 0, 197.4096252 -297.8300759 0, 152.3485523 -310.2281214 0, 152.1604524 -310.2768072 0, 133.7467471 -314.1668333 0, 125.6905888 -315.2752221 0, 125.5901299 -315.2803057 0, 116.7683325 -315.5526526 0, 116.6652393 -315.5547533 0, 107.2040498 -314.7171914 0, 107.0998824 -314.7041058 0, 80.88145646 -309.5279303 0, 62.4575 -306.378 0, 62.32017272 -306.3633521 0, 60 -305.949 0, 53.2418432 -305.9431977 0, 50.92683213 -293.5781395 0, 50.89866345 -293.4539877 0, 32.18803234 -245.9927813 0, 32.13448712 -245.8235095 0, 23.77950111 -208.1111111 0, 8.598184637 -187.4219767 0, 8.5126 -187.307 0, -6.190921965 -167.94355 0, -22.68267876 -150.098491 0, -22.78309499 -149.9994528 0, -50.99980657 -123.9651571 0, -72.10611699 -105.0328028 0, -86.58162913 -91.27769833 0, -86.6589 -91.1664 0, -95.0631 -78.3385 0, -94.8335 -78.1414 0, -2 2 0, 0.5 -0.3 -0.005
   ]
 }
 Slide {
   translation 81.6528 -280.075 -5.91038e-05
-  rotation 0.18615701608601462 0.6947450600336179 0.6947480600338772 2.77349
+  rotation 0 0 1 -2.0943951023931953
 }
 Swing {
   translation 75.893 -278.68 -0.000271506
-  rotation -0.9351132545462786 0.25056206820525934 0.25056306820553154 -1.6378353071795866
+  rotation 0 0 1 1.0471975511965976
 }
 Forest {
   translation 259.479 -136.196 -0.000177343
-  rotation -0.9831056944488314 0.1294279597735375 0.1294279597735375 -1.5878353071795859
+  rotation 0 0 1 -1.8325957145940461
   shape [
-    -275 -50
-    100 -50
-    50 25
-    -100 100
+    -50 275
+    -50 -100
+    25 -50
+    100 100
   ]
   groundTexture []
 }
 SimpleBuilding {
   translation 107.85 206.75 0
-  rotation 3.3905113482557537e-09 0.70710528118436 0.707108281185553 3.14159
+  rotation 0 0 1 1.5707963267948966
   name "building(2)"
   corners [
     0 0
-    -4.12 -1.07
-    4.76 -34.82
-    8.8 -33.75
+    -1.07 -4.12
+    -34.82 4.76
+    -33.75 8.8
   ]
   wallType "brick building"
   bottom TRUE
 }
 SimpleBuilding {
   translation 77.4 215.03 0
-  rotation 3.3905113482557537e-09 0.70710528118436 0.707108281185553 3.14159
+  rotation 0 0 1 1.5707963267948966
   name "Newell-Simon Hall"
   corners [
     0 0
-    -5.71 22.25
-    -8.62 21.44
-    -10.1 27.25
-    -1.34 29.78
-    -7.55 52.82
-    -26.91 48.09
-    -25.97 44.41
-    -40.33 40.74
-    -55.58 36.69
-    -56.47 40.35
-    -75.87 35.13
-    -70.34 18.18
-    -69.49 14.92
-    -61.98 -16.86
-    -34.57 -9.35
-    -30.45 -8.27
+    22.25 -5.71
+    21.44 -8.62
+    27.25 -10.1
+    29.78 -1.34
+    52.82 -7.55
+    48.09 -26.91
+    44.41 -25.97
+    40.74 -40.33
+    36.69 -55.58
+    40.35 -56.47
+    35.13 -75.87
+    18.18 -70.34
+    14.92 -69.49
+    -16.86 -61.98
+    -9.35 -34.57
+    -8.27 -30.45
   ]
   wallType "old brick building"
   roofShape "flat roof"
@@ -833,82 +857,82 @@ SimpleBuilding {
 }
 SimpleBuilding {
   translation -5.19 208.73 0
-  rotation -9.236343672883591e-09 0.70710528118436 0.707108281185553 -3.1415853071795863
+  rotation 0 0 1 1.5707963267948966
   name "Scott Hall"
   corners [
     0 0
-    -42.44 -10.37
-    -41.14 -15.82
-    -48.44 -17.77
-    -46.74 -25.04
-    -44.98 -32.55
-    -38.82 -31.03
-    -33.39 -52.62
-    -25.69 -50.63
-    -28.24 -40.45
-    -18.28 -36.22
-    6.98 -25.46
+    -10.37 -42.44
+    -15.82 -41.14
+    -17.77 -48.44
+    -25.04 -46.74
+    -32.55 -44.98
+    -31.03 -38.82
+    -52.62 -33.39
+    -50.63 -25.69
+    -40.45 -28.24
+    -36.22 -18.28
+    -25.46 6.98
   ]
   wallType "red and white building"
   roofShape "flat roof"
 }
 SimpleBuilding {
   translation 165.32 156.14 0
-  rotation 3.3905113482557537e-09 0.70710528118436 0.707108281185553 3.14159
+  rotation 0 0 1 1.5707963267948966
   name "Doherty Hall"
   corners [
     0 0
-    -4.63 20.68
-    -75.46 2.68
-    -69.22 -23.51
-    -79.44 -26.28
-    -80.13 -22.64
-    -97.66 -27.51
-    -104.23 -40.42
-    -91.43 -53.69
-    -54.17 -43.99
-    -54.14 -41.08
-    -50.48 -39.69
-    -45.59 -56.42
-    8.45 -42.57
-    3.54 -26.54
-    7.19 -25.86
-    5.92 -22.41
+    20.68 -4.63
+    2.68 -75.46
+    -23.51 -69.22
+    -26.28 -79.44
+    -22.64 -80.13
+    -27.51 -97.66
+    -40.42 -104.23
+    -53.69 -91.43
+    -43.99 -54.17
+    -41.08 -54.14
+    -39.69 -50.48
+    -56.42 -45.59
+    -42.57 8.45
+    -26.54 3.54
+    -25.86 7.19
+    -22.41 5.92
   ]
   wallType "red and white building"
   roofShape "flat roof"
 }
 SimpleBuilding {
   translation 37.77 171.96 0
-  rotation 3.3905113482557537e-09 0.70710528118436 0.707108281185553 3.14159
+  rotation 0 0 1 1.5707963267948966
   name "Wean Hall"
   floorNumber 7
   corners [
-    0 0, -17.48 -4.59, -18.69 0.01, -13.15 1.47, -15.26 9.49, -53.03 -0.42, -53.93 2.97, -61.28 1.04, -63.92 0.35, -65.32 -0.02, -66.38 4.01, -105.44 -6.24, -106.85 -0.9, -113.67 -2.7, -112.26 -8.01, -122.63 -10.73, -121.68 -14.28, -127.55 -15.82, -121.63 -38.23, -115.84 -36.71, -114.32 -42.45, -110.52 -41.47, -106.96 -54.93, -54.63 -41.2, -53.08 -47.06, -39.3 -43.45, -44 -25.69, -29.07 -21.77, 3.5 -13.23
+    0 0, -4.59 -17.48, 0.01 -18.69, 1.47 -13.15, 9.49 -15.26, -0.42 -53.03, 2.97 -53.93, 1.04 -61.28, 0.35 -63.92, -0.02 -65.32, 4.01 -66.38, -6.24 -105.44, -0.9 -106.85, -2.7 -113.67, -8.01 -112.26, -10.73 -122.63, -14.28 -121.68, -15.82 -127.55, -38.23 -121.63, -36.71 -115.84, -42.45 -114.32, -41.47 -110.52, -54.93 -106.96, -41.2 -54.63, -47.06 -53.08, -43.45 -39.3, -25.69 -44, -21.77 -29.07, -13.23 3.5
   ]
   wallType "classic building"
   roofShape "flat roof"
 }
 SimpleBuilding {
   translation -28.15 87.18 0
-  rotation 3.3905113482557537e-09 0.70710528118436 0.707108281185553 3.14159
+  rotation 0 0 1 1.5707963267948966
   name "Roberts Engineering Hall"
   corners [
     0 0
-    -6.47 6.6
-    -14.13 35.71
-    -19.5 33.76
-    -22.28 44.67
-    -16.92 46.61
-    -25.86 65.3
-    -24.59 74.99
-    -22.29 83.66
-    -15.82 77.78
-    -7.05 80.58
-    -3.75 82.81
-    14.8 11.46
-    10.33 11.48
-    2.3 9.4
+    6.6 -6.47
+    35.71 -14.13
+    33.76 -19.5
+    44.67 -22.28
+    46.61 -16.92
+    65.3 -25.86
+    74.99 -24.59
+    83.66 -22.29
+    77.78 -15.82
+    80.58 -7.05
+    82.81 -3.75
+    11.46 14.8
+    11.48 10.33
+    9.4 2.3
   ]
   wallType "highrise"
   roofShape "flat roof"
@@ -916,28 +940,28 @@ SimpleBuilding {
 }
 SimpleBuilding {
   translation 4.44 162.26 0
-  rotation 3.3905113482557537e-09 0.70710528118436 0.707108281185553 3.14159
+  rotation 0 0 1 1.5707963267948966
   name "Hamerschlag Hall"
   corners [
     0 0
-    7.69 -26.92
-    10.32 -30.41
-    13.1 -41.32
-    12.57 -45.11
-    15.11 -56.08
-    18.8 -72.02
-    10.76 -74.1
-    3.22 -76.01
-    -0.94 -57.83
-    -41.09 -67.5
-    -43.68 -61.12
-    -47.33 -61.81
-    -50.22 -51.25
-    -52.91 -41.43
-    -49.26 -40.02
-    -51.36 -33.47
-    -11.19 -23.07
-    -16.06 -4.16
+    -26.92 7.69
+    -30.41 10.32
+    -41.32 13.1
+    -45.11 12.57
+    -56.08 15.11
+    -72.02 18.8
+    -74.1 10.76
+    -76.01 3.22
+    -57.83 -0.94
+    -67.5 -41.09
+    -61.12 -43.68
+    -61.81 -47.33
+    -51.25 -50.22
+    -41.43 -52.91
+    -40.02 -49.26
+    -33.47 -51.36
+    -23.07 -11.19
+    -4.16 -16.06
   ]
   wallType "stone brick"
   roofShape "flat roof"
@@ -945,120 +969,120 @@ SimpleBuilding {
 }
 SimpleBuilding {
   translation 404.96 43.11 0
-  rotation 3.3905113482557537e-09 0.70710528118436 0.707108281185553 3.14159
+  rotation 0 0 1 1.5707963267948966
   name "Tepper School of Business"
   corners [
     0 0
-    -29.08 -7.71
-    -6.64 -79.04
-    -1.52 -77.66
-    6.86 -107.49
-    17.08 -104.72
-    17.78 -106.9
-    55.03 -97.19
-    50.87 -79.73
-    54.52 -79.05
-    49.66 -58.69
-    42.36 -60.78
-    40.27 -52.77
-    14.71 -58.99
-    13.99 -54.17
+    -7.71 -29.08
+    -79.04 -6.64
+    -77.66 -1.52
+    -107.49 6.86
+    -104.72 17.08
+    -106.9 17.78
+    -97.19 55.03
+    -79.73 50.87
+    -79.05 54.52
+    -58.69 49.66
+    -60.78 42.36
+    -52.77 40.27
+    -58.99 14.71
+    -54.17 13.99
   ]
   wallType "gray glass building"
   roofShape "flat roof"
 }
 SimpleBuilding {
   translation 315.77 1.36 0
-  rotation 3.3905113482557537e-09 0.70710528118436 0.707108281185553 3.14159
+  rotation 0 0 1 1.5707963267948966
   name "College of Fine Arts"
   corners [
     0 0
-    -20.93 76.4
-    -58.17 66.69
-    -54.03 50.76
-    -40.03 -3.41
-    -38.7 -9.69
+    76.4 -20.93
+    66.69 -58.17
+    50.76 -54.03
+    -3.41 -40.03
+    -9.69 -38.7
   ]
   wallType "office building"
   roofShape "flat roof"
 }
 SimpleBuilding {
   translation 251.98 -6.45 0
-  rotation -1.017150404475533e-08 -0.70710528118436 -0.707108281185553 -3.1415853071795863
+  rotation 0 0 1 1.5707963267948966
   name "Hunt Library"
   corners [
     0 0
-    8.59 -31.94
-    -47.71 -46.98
-    -56.31 -15.04
+    -31.94 8.59
+    -46.98 -47.71
+    -15.04 -56.31
   ]
   wallType "old house"
 }
 SimpleBuilding {
   translation 100.08 50.34 0
-  rotation 0 0.70710528118436 0.707108281185553 3.14159
+  rotation 0 0 1 1.5707963267948966
   name "Baker Hall"
   corners [
-    0 0, -0.71 2.23, -4.98 18.54, -21.7 14.2, -17.52 -1.8, -38 -7.12, -42.06 8.4, -59.23 3.94, -55.14 -11.71, -76.19 -17.17, -80.24 -1.67, -96.84 -5.97, -92.97 -20.76, -116.32 -26.81, -117.55 -22.11, -136.21 -26.95, -132.31 -41.88, -128.86 -55.37, -111.06 -50.85, -112.79 -44.1, -106.89 -42.61, -101.46 -63.91, -84.62 -59.64, -89.44 -40.76, -67.56 -35.21, -62.84 -53.67, -46.74 -49.59, -51.79 -29.83, -30.53 -24.45, -25.68 -43.41, -9.82 -39.38, -14.78 -19.98, 3.86 -15.26, 3.45 -13.35
+    0 0, 2.23 -0.71, 18.54 -4.98, 14.2 -21.7, -1.8 -17.52, -7.12 -38, 8.4 -42.06, 3.94 -59.23, -11.71 -55.14, -17.17 -76.19, -1.67 -80.24, -5.97 -96.84, -20.76 -92.97, -26.81 -116.32, -22.11 -117.55, -26.95 -136.21, -41.88 -132.31, -55.37 -128.86, -50.85 -111.06, -44.1 -112.79, -42.61 -106.89, -63.91 -101.46, -59.64 -84.62, -40.76 -89.44, -35.21 -67.56, -53.67 -62.84, -49.59 -46.74, -29.83 -51.79, -24.45 -30.53, -43.41 -25.68, -39.38 -9.82, -19.98 -14.78, -15.26 3.86, -13.35 3.45
   ]
   wallType "transparent highrise"
   roofShape "flat roof"
 }
 SimpleBuilding {
   translation 9.07 51.99 0
-  rotation 0 0.70710528118436 0.707108281185553 3.14159
+  rotation 0 0 1 1.5707963267948966
   name "Porter Hall"
   corners [
     0 0
-    4.82 -18.63
-    -33.95 -28.59
-    -34.67 -25.81
-    -58.98 -32.05
-    -58.25 -34.86
-    -78.57 -40.09
-    -82.67 -24.25
-    -59.71 -18.35
-    -61.53 -11.34
-    -82.62 -16.77
-    -83.36 -13.93
-    -87.55 -15.01
-    -91.01 -1.66
-    -86.12 -0.4
-    -87.12 3.43
-    -66.96 8.6
-    -71.81 27.32
-    -33.42 37.19
-    -24.5 2.77
-    -7.6 7.12
-    -5.39 -1.39
+    -18.63 4.82
+    -28.59 -33.95
+    -25.81 -34.67
+    -32.05 -58.98
+    -34.86 -58.25
+    -40.09 -78.57
+    -24.25 -82.67
+    -18.35 -59.71
+    -11.34 -61.53
+    -16.77 -82.62
+    -13.93 -83.36
+    -15.01 -87.55
+    -1.66 -91.01
+    -0.4 -86.12
+    3.43 -87.12
+    8.6 -66.96
+    27.32 -71.81
+    37.19 -33.42
+    2.77 -24.5
+    7.12 -7.6
+    -1.39 -5.39
   ]
   wallType "old brick building"
   roofShape "flat roof"
 }
 SimpleBuilding {
   translation -36.81 80.55 0
-  rotation 0 0.707104781184338 0.7071087811831002 -3.1415853071795863
+  rotation 0 0 1 1.5707963267948966
   name "Scaife Hall"
   corners [
     0 0
-    10.47 -37.84
-    -10.7 -43.38
-    -12.31 -35.21
-    -16.44 -36.06
-    -17.23 -41.13
-    -28.16 -41.73
-    -29.56 -40.84
-    -30.71 -39.61
-    -31.7 -38.22
-    -32.46 -36.6
-    -32.63 -34.97
-    -32.46 -33.34
-    -32.23 -31.66
-    -31.66 -30.09
-    -22.37 -24.21
-    -19.48 -26.42
-    -15.59 -25.19
-    -20.45 -5.56
+    -37.84 10.47
+    -43.38 -10.7
+    -35.21 -12.31
+    -36.06 -16.44
+    -41.13 -17.23
+    -41.73 -28.16
+    -40.84 -29.56
+    -39.61 -30.71
+    -38.22 -31.7
+    -36.6 -32.46
+    -34.97 -32.63
+    -33.34 -32.46
+    -31.66 -32.23
+    -30.09 -31.66
+    -24.21 -22.37
+    -26.42 -19.48
+    -25.19 -15.59
+    -5.56 -20.45
   ]
   wallType "office building"
   roofShape "flat roof"
