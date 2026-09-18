@@ -81,4 +81,9 @@ function showResult(traj, timestep, X, Y, delta, xdot, ydot, F, psi, psidot, min
     avgDist = mean(minDist);
     fprintf('maxMinDist: %.4f\n', max(minDist));
     fprintf('avgMinDist: %.4f\n', avgDist);
+
+    % Webots launches this controller with MATLAB's -batch option, which
+    % would otherwise close MATLAB (and this figure) as soon as grading ends.
+    fprintf('Results ready. Close the results window to exit MATLAB.\n');
+    waitfor(resultFigure);
 end
