@@ -117,10 +117,3 @@ result images and simulation logs are ignored by Git.
 - `controllers/main_matlab/evaluation.m` — grading implementation.
 - `controllers/main_matlab/buggyTrace.csv` — reference trajectory.
 
-## R2025a migration notes
-
-The world explicitly declares its external PROTO dependencies and uses R2025a
-`Pose`, primitive-axis, and XY ground-plane conventions. Road waypoints,
-building footprints, the forest boundary, and playset orientations were
-converted from their R2021b representations. Local wheel PROTOs preserve the
-tractor's original joint frames while using R2025a geometry conventions.
