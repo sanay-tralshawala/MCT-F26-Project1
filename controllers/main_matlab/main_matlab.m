@@ -137,8 +137,20 @@ function initializeDriver()
     driverLibrary = fullfile(webotsHome, 'lib', 'controller', 'driver.dll');
     driverHeader = fullfile(webotsHome, 'include', 'controller', 'c', 'webots', 'vehicle', 'driver.h');
     controllerIncludes = fullfile(webotsHome, 'include', 'controller', 'c');
-    loadlibrary(driverLibrary, driverHeader, 'alias', 'libDriver', ...
-        'includepath', controllerIncludes);
+    driverPrototype = ['protofile_driver_matlab_' version('-release')];
+    driverPrototype = strrep(driverPrototype, '.', '_');
+    driverPrototypePath = fullfile(tempdir, [driverPrototype '.m']);
+    if isfile(driverPrototypePath)
+        addpath(tempdir);
+        loadlibrary(driverLibrary, str2func(driverPrototype), 'alias', 'libDriver');
+    else
+        originalDirectory = pwd;
+        cleanupDirectory = onCleanup(@() cd(originalDirectory));
+        cd(tempdir);
+        loadlibrary(driverLibrary, driverHeader, 'alias', 'libDriver', ...
+            'mfilename', driverPrototype, 'includepath', controllerIncludes);
+        clear cleanupDirectory;
+    end
     calllib('libDriver', 'wbu_driver_init');
 end
 

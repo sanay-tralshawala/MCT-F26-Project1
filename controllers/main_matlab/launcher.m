@@ -1,17 +1,26 @@
-% Compatibility launcher for Webots R2021b with recent MATLAB releases.
-% R2021b caches a generated .m prototype and then passes its basename to
-% loadlibrary on later launches. MATLAB R2026a interprets that basename as
-% a missing header file. Regenerating this small prototype on every launch
-% avoids the incompatible cached-code path.
+% Compatibility launcher for Webots R2025a with recent MATLAB releases.
+% Webots passes its cached prototype basename as text, which MATLAB R2026a
+% interprets as a C header.  Run a temporary copy of Webots' launcher that
+% passes the generated MATLAB prototype as a function handle instead.  This
+% also avoids rebuilding a thunk DLL that a resetting controller may hold.
 webotsHome = getenv('WEBOTS_HOME');
 if isempty(webotsHome)
     error('WEBOTS_HOME is not set. Start this controller from Webots.');
 end
-webotsVersion = getenv('WEBOTS_VERSION');
-prototype = strrep(strrep(['protofile_matlab_' version('-release') ...
-    '_webots_' webotsVersion], '.', '_'), ' ', '_');
-prototypePath = fullfile(tempdir, [prototype '.m']);
-if isfile(prototypePath)
-    delete(prototypePath);
+officialLauncher = fullfile(webotsHome, 'lib', 'controller', 'matlab', 'launcher.m');
+launcherText = fileread(officialLauncher);
+oldCall = "loadlibrary(libname,protofile,'alias','libController');";
+newCall = "loadlibrary(libname,str2func(protofile),'alias','libController');";
+if ~contains(launcherText, oldCall)
+    error('The Webots MATLAB launcher format is not recognized.');
 end
-run(fullfile(webotsHome, 'lib', 'controller', 'matlab', 'launcher.m'));
+launcherText = replace(launcherText, oldCall, newCall);
+compatLauncher = fullfile(tempdir, 'webots_launcher_compat.m');
+fileId = fopen(compatLauncher, 'w');
+if fileId == -1
+    error('Unable to create the compatible Webots MATLAB launcher.');
+end
+cleanupFile = onCleanup(@() fclose(fileId));
+fprintf(fileId, '%s', launcherText);
+clear cleanupFile;
+run(compatLauncher);
