@@ -134,11 +134,31 @@ function initializeDriver()
         unloadlibrary('libDriver');
     end
     webotsHome = getenv('WEBOTS_HOME');
-    driverLibrary = fullfile(webotsHome, 'lib', 'controller', 'driver.dll');
+    if isempty(webotsHome)
+        error('WEBOTS_HOME is not set. Start this controller from Webots.');
+    end
+    if ismac
+        webotsHome = fullfile(webotsHome, 'Contents');
+        driverName = 'libdriver.dylib';
+    elseif isunix
+        driverName = 'libdriver.so';
+    elseif ispc
+        driverName = 'driver.dll';
+    else
+        error('Unsupported operating system for the Webots vehicle driver.');
+    end
+    driverLibrary = fullfile(webotsHome, 'lib', 'controller', driverName);
     driverHeader = fullfile(webotsHome, 'include', 'controller', 'c', 'webots', 'vehicle', 'driver.h');
     controllerIncludes = fullfile(webotsHome, 'include', 'controller', 'c');
-    driverPrototype = ['protofile_driver_matlab_' version('-release')];
-    driverPrototype = strrep(driverPrototype, '.', '_');
+    if ~isfile(driverLibrary)
+        error('Webots vehicle driver library not found: %s', driverLibrary);
+    end
+    if ~isfile(driverHeader)
+        error('Webots vehicle driver header not found: %s', driverHeader);
+    end
+    driverPrototype = ['protofile_driver_matlab_' version('-release') ...
+        '_webots_' getenv('WEBOTS_VERSION') '_' computer('arch')];
+    driverPrototype = regexprep(driverPrototype, '[^A-Za-z0-9_]', '_');
     driverPrototypePath = fullfile(tempdir, [driverPrototype '.m']);
     if isfile(driverPrototypePath)
         addpath(tempdir);

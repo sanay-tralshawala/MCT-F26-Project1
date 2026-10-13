@@ -10,8 +10,9 @@ trajectory, and the course grader. Python is not required.
 
 Download the R2025a installer for your operating system from the
 [official Webots releases](https://github.com/cyberbotics/webots/releases/tag/R2025a),
-then run the installer. On Windows, the default location is
-`C:\Program Files\Webots`.
+then install the build for Windows, macOS, or Ubuntu Linux. On Windows, the
+default location is `C:\Program Files\Webots`. Do not use the Linux Snap build:
+its sandbox does not support MATLAB controllers.
 
 This project targets R2025a specifically. Opening and saving the world with an
 older Webots release can rewrite it into an incompatible format.
@@ -23,10 +24,17 @@ Download and install a 64-bit MATLAB release through
 account and MATLAB license are required. The project has been verified with
 MATLAB R2026a.
 
-On Windows, also install the
+Install a MATLAB-supported C compiler because the controller uses
+`loadlibrary` to load Webots' native controller and vehicle-driver libraries:
+
+- Windows: install the
 [MATLAB Support for MinGW-w64 C/C++ Compiler](https://www.mathworks.com/matlabcentral/fileexchange/52848-matlab-support-for-mingw-w64-c-c-compiler)
-add-on. Webots uses MATLAB's `loadlibrary` support to load its controller and
-vehicle-driver libraries.
+  add-on.
+- macOS: install the Xcode Command Line Tools and select a supported Clang
+  compiler in MATLAB.
+- Linux: install a GCC version supported by the installed MATLAB release.
+
+In MATLAB, run `mex -setup C` once and confirm that a compiler is selected.
 
 Webots and MATLAB must use the same architecture; use 64-bit MATLAB with the
 64-bit Webots installation.
@@ -49,6 +57,10 @@ C:\Program Files\MATLAB\R2026a\bin\win64\MATLAB.exe
 Do not select `bin\MATLAB.exe`; Webots' R2025a documentation notes that this
 launcher can interfere with controller output and process termination.
 
+On macOS, select the MATLAB application if automatic detection fails. On Linux,
+select the full path to the MATLAB executable, commonly
+`/usr/local/MATLAB/R2026a/bin/matlab`.
+
 The official references are the Webots
 [installation guide](https://cyberbotics.com/doc/guide/installation-procedure)
 and [MATLAB controller guide](https://cyberbotics.com/doc/guide/using-matlab).
@@ -66,9 +78,10 @@ Webots launches MATLAB automatically and runs
 `controllers/main_matlab/main_matlab.m`. Do not start that file directly from
 MATLAB: Webots must establish the controller connection and environment first.
 
-The first launch can take longer because MATLAB generates interface files for
-the Webots libraries. Subsequent simulation output appears in the Webots
-console.
+The first launch can take longer because MATLAB generates platform-specific
+interface files for the Webots libraries. Subsequent simulation output appears
+in the Webots console. The controller selects `driver.dll` on Windows,
+`libdriver.dylib` on macOS, and `libdriver.so` on Linux automatically.
 
 ## Implement the assignment controller
 
