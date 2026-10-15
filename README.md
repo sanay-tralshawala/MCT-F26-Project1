@@ -22,7 +22,7 @@ older Webots release can rewrite it into an incompatible format.
 Download and install a 64-bit MATLAB release through
 [MathWorks Downloads](https://www.mathworks.com/downloads/). A valid MathWorks
 account and MATLAB license are required. The project has been verified with
-MATLAB R2026a.
+MATLAB R2025a.
 
 Install a MATLAB-supported C compiler because the controller uses
 `loadlibrary` to load Webots' native controller and vehicle-driver libraries:
@@ -51,7 +51,7 @@ does not:
 On Windows, select the executable inside `bin\win64`, for example:
 
 ```text
-C:\Program Files\MATLAB\R2026a\bin\win64\MATLAB.exe
+C:\Program Files\MATLAB\R2025a\bin\win64\MATLAB.exe
 ```
 
 Do not select `bin\MATLAB.exe`; Webots' R2025a documentation notes that this
@@ -59,7 +59,7 @@ launcher can interfere with controller output and process termination.
 
 On macOS, select the MATLAB application if automatic detection fails. On Linux,
 select the full path to the MATLAB executable, commonly
-`/usr/local/MATLAB/R2026a/bin/matlab`.
+`/usr/local/MATLAB/R2025a/bin/matlab`.
 
 The official references are the Webots
 [installation guide](https://cyberbotics.com/doc/guide/installation-procedure)
