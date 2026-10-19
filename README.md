@@ -7,7 +7,7 @@ trajectory, and the course grader. Python is not required.
 ## Platform support
 
 | Platform | Webots package | Vehicle library |
-| --- | --- | --- | --- |
+| --- | --- | --- | 
 | Windows 10/11 (64-bit) | R2025a `.exe` | `driver.dll` |
 | macOS 14+ | R2025a `.dmg` | `libdriver.dylib` | 
 | Ubuntu 22.04/24.04 (64-bit) | R2025a `.deb` or tarball | `libdriver.so` | 
