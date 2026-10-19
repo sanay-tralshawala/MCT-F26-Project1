@@ -4,6 +4,20 @@ MATLAB backend for the Webots tractor-racing controller project. The repository
 contains a Webots R2025a world, a MATLAB controller template, the reference
 trajectory, and the course grader. Python is not required.
 
+## Platform support
+
+| Platform | Webots package | Vehicle library | Validation status |
+| --- | --- | --- | --- |
+| Windows 10/11 (64-bit) | R2025a `.exe` | `driver.dll` | Runtime-tested |
+| macOS 14+ | R2025a `.dmg` | `libdriver.dylib` | Code support; runtime test pending |
+| Ubuntu 22.04/24.04 (64-bit) | R2025a `.deb` or tarball | `libdriver.so` | Code support; runtime test pending |
+
+The controller detects the operating system at runtime and selects the native
+Webots vehicle library. macOS and Ubuntu support follows Webots' documented
+library names and installation layout, but has not yet been exercised on those
+operating systems. Do not use the Linux Snap package because its sandbox does
+not support MATLAB controllers.
+
 ## Install the software
 
 ### 1. Install Webots R2025a
@@ -11,8 +25,7 @@ trajectory, and the course grader. Python is not required.
 Download the R2025a installer for your operating system from the
 [official Webots releases](https://github.com/cyberbotics/webots/releases/tag/R2025a),
 then install the build for Windows, macOS, or Ubuntu Linux. On Windows, the
-default location is `C:\Program Files\Webots`. Do not use the Linux Snap build:
-its sandbox does not support MATLAB controllers.
+default location is `C:\Program Files\Webots`.
 
 This project targets R2025a specifically. Opening and saving the world with an
 older Webots release can rewrite it into an incompatible format.
@@ -27,8 +40,7 @@ MATLAB R2025a.
 Install a MATLAB-supported C compiler because the controller uses
 `loadlibrary` to load Webots' native controller and vehicle-driver libraries:
 
-- Windows: install the
-[MATLAB Support for MinGW-w64 C/C++ Compiler](https://www.mathworks.com/matlabcentral/fileexchange/52848-matlab-support-for-mingw-w64-c-c-compiler)
+- Windows: install the [MATLAB Support for MinGW-w64 C/C++ Compiler](https://www.mathworks.com/matlabcentral/fileexchange/52848-matlab-support-for-mingw-w64-c-c-compiler)
   add-on.
 - macOS: install the Xcode Command Line Tools and select a supported Clang
   compiler in MATLAB.
@@ -82,6 +94,14 @@ The first launch can take longer because MATLAB generates platform-specific
 interface files for the Webots libraries. Subsequent simulation output appears
 in the Webots console. The controller selects `driver.dll` on Windows,
 `libdriver.dylib` on macOS, and `libdriver.so` on Linux automatically.
+
+For a new machine, verify that the Webots console prints
+`MATLAB controller starting...` without a `loadlibrary` error. Then test the
+normal edit cycle: stop or pause the simulation, save `your_controller.m`,
+reset the world, and run again. Reset launches a new MATLAB controller process
+and reloads the saved class. If the controller template is unchanged, the UI
+will load but the tractor will remain stationary because both control outputs
+are zero.
 
 ## Implement the assignment controller
 
